@@ -65,6 +65,7 @@ def Meny():
 
                     print(f'{Word} appears {Result[2]} in the text')
                     print(f'Words appering only once: {Result[1]}')
+                    print(f'Average word length: {Result[3]} characters')
                     print()
 
                     print(f'Top 10 most common worlds:')
