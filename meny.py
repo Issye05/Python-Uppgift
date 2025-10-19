@@ -1,3 +1,5 @@
+import Function
+
 def Meny():
     Line = '\u2550' * 18
     CornerTopLeft = '\u2554'
@@ -8,12 +10,12 @@ def Meny():
     
     Choice = ''
 
-    Books = {'Lejonkungen': 'länk',
+    Books = {'Gostaberlingssaga': 'GostaBerlingsSaga.txt',
              'Jakobbocken': 'länk2',
              'Isakavnjutare': 'länk3',
     }
                 
-    while Choice != 'exit':
+    while Choice != 'Exit':
         print(f'{'Choose a book':^20}')
         print(CornerTopLeft + Line + CornerTopRight)
 
@@ -30,14 +32,15 @@ def Meny():
 
         if Choice in Books:
             print()
-            #import {Books [Choice]} eller en funtion typ
             
-            while Choice != 'back':
+            Link = Books[Choice]
+            
+            while Choice != 'Back':
                 print(f'{'Type what chooise you want':^20}')
                 print(CornerTopLeft + Line + CornerTopRight)
                 
-                print(f'{'Basic tatistic':^20}')
-                print(f'{'Word requency':^20}')
+                print(f'{'Basic Statistics':^20}')
+                print(f'{'Word Analysis':^20}')
                 print(f'{'Character nalysis':^20}')
       
                 print(f'{'Back':^20}')
@@ -45,26 +48,37 @@ def Meny():
                 print()
                 
                 Choice = input('==>>')
-                Choice = Choice.lower().strip().replace(' ','')
+                Choice = Choice.capitalize().strip().replace(' ','')
 
-                if Choice == 'basicstatistic':
+                if Choice == 'Basicstatistic':
                     print('Gör en funktion till varje')
                     print()
-                elif Choice == 'wordfrequency':
+                elif Choice == 'Wordanalysis':
+                    Word = input(f'Type the word you want to search for in the text.')
+                    
+                    Result = Function.Word_Frequency(Link, Word)
+
+                    print(f'Word appering only once: {Result[1]}')
+                    print(f'{Word} was: {Result[2]} times')
+
+                    for Word, Count in Result[0]:
+                        print(f'{Word: >5} {Count}')
+                    
+                    
+                    print()
+                elif Choice == 'Characteranalysis':
                     print('Gör en funktion till varje')
                     print()
-                elif Choice == 'characteranalysis':
-                    print('Gör en funktion till varje')
-                    print()
-                elif Choice == 'back':
+                elif Choice == 'Back':
                     print()
                 else:
                     print('Didnt find your choice')
                     print()
                 
-        elif Choice == 'exit':
+        elif Choice == 'Exit':
             print('Exit program') 
             print()
         else:
             print('Error, Try again')
             print()
+Meny()
