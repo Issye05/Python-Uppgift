@@ -66,4 +66,5 @@ def Meny():
             print('Exit program') 
             print()
         else:
-            print('Error, Try again') #borde kunna sätta detta i en main function och köra den i try error saken istället som vi fick lära oss på föreläsningen
+            print('Error, Try again')
+            print()
