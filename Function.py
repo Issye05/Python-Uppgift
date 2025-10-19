@@ -1,8 +1,3 @@
-from IPython.display import clear_output
-
-def clear_screen():
-    clear_output(wait=True)
-    
 def Word_Frequency(Link, Unique_Word):
     Word_Count = {}
     Words_Appearing_Only_Once = 0
