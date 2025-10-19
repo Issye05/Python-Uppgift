@@ -1,13 +1,9 @@
 import Function
 
 def Meny():
-    Line = '\u2550' * 18
-    CornerTopLeft = '\u2554'
-    CornerTopRight = '\u2557'
-    CornerBottomLeft = '\u255A'
-    CornerBottomRight = '\u255D'
-    Line2 = '\u2551'
-    
+    Top_Line = '\u2554' + '\u2550' * 25 + '\u2557'
+    Bottom_Line = '\u255A' + '\u2550' * 25 + '\u255D'
+    Vertical_Line = '\u2551'
     Choice = ''
 
     Books = {'Gostaberlingssaga': 'GostaBerlingsSaga.txt',
@@ -17,14 +13,14 @@ def Meny():
                 
     while Choice != 'Exit':
         
-        print(f'{'Choose a book':^20}')
-        print(CornerTopLeft + Line + CornerTopRight)
+        print(f'{'Choose a book':^25}')
+        print(Top_Line)
 
-        for i in Books:
-            print(f'{i:^20}')
+        for Name in Books:
+            print(f'{Name:^25}')
             
-        print(f'{'Exit':^20}')
-        print(CornerBottomLeft + Line + CornerBottomRight)
+        print(f'{'Exit':^25}')
+        print(Bottom_Line)
         print()
         
         Choice = input('==>>')
@@ -37,55 +33,48 @@ def Meny():
             Link = Books[Choice]
             
             while Choice != 'Back':
-                Function.Clear_Screen()
+                print(f'{'Type what chooise you want':^25}')
+                print(Top_Line)
                 
-                print(f'{'Type what chooise you want':^20}')
-                print(CornerTopLeft + Line + CornerTopRight)
-                
-                print(f'{'Basic Statistics':^20}')
-                print(f'{'Word Analysis':^20}')
-                print(f'{'Character nalysis':^20}')
+                print(f'{'Basic Statistics':^25}')
+                print(f'{'Word Analysis':^25}')
+                print(f'{'Character nalysis':^25}')
       
-                print(f'{'Back':^20}')
-                print(CornerBottomLeft + Line + CornerBottomRight)
+                print(f'{'Back':^25}')
+                print(Bottom_Line)
                 print()
                 
                 Choice = input('==>>')
                 Choice = Choice.capitalize().strip().replace(' ','')
 
                 if Choice == 'Basicstatistic':
-                    Function.Clear_Screen()
-                    
                     print('Gör en funktion till varje')
                     
                     print()
                 elif Choice == 'Wordanalysis':
-                    Function.Clear_Screen()
-                    
-                    Word = input(f'Type the word you want to search for in the text: ')
+                    print()
+                    print(f'Type the word you want to search for in the text:')
+                    Word = input('==>>')
                     print()
                     
                     Result = Function.Word_Frequency(Link, Word)
 
+                    print(f'Word Analysis for {Link}')
+
                     print(f'{Word} appears {Result[2]} in the text')
-                    print()
                     print(f'Words appering only once: {Result[1]}')
                     print()
 
+                    print(f'Top 10 most common worlds:')
                     for Word, Count in Result[0]:
                         print(f'{Word: <10} {Count}')
                     
-                    
                     print()
                 elif Choice == 'Characteranalysis':
-                    Function.Clear_Screen()
-                    
                     print('Gör en funktion till varje')
                     
                     print()
                 elif Choice == 'Back':
-                    Function.Clear_Screen()
-                    
                     print()
                 else:
                     print('Didnt find your choice')
