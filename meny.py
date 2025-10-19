@@ -30,7 +30,7 @@ def Meny():
 
         if Choice in Books:
             print()
-            #import {Books [Choice]} eller en funtion typ
+            Link = Books[Choice]
             
             while Choice != 'back':
                 print(f'{'Type what chooise you want':^20}')
