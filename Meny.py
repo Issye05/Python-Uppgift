@@ -1,30 +1,31 @@
 import Function
 
 def Meny():
-    Top_Line = '\u2554' + '\u2550' * 25 + '\u2557'
-    Bottom_Line = '\u255A' + '\u2550' * 25 + '\u255D'
-    Vertical_Line = '\u2551'
+    Top_Line = '\u2554' + '\u2550' * 50 + '\u2557'
+    Bottom_Line = '\u255A' + '\u2550' * 50 + '\u255D'
     Choice = ''
 
-    Books = {'Gostaberlingssaga': 'GostaBerlingsSaga.txt',
-             'Jakobbocken': 'länk2',
-             'Isakavnjutare': 'länk3',
+    Books = {'Pride And Prejudice': 'Pride And Prejudice.txt',
+             'The Complete Works Of William Shakespeare': 'The Complete Works Of William Shakespeare.txt',
+             'Dracula': 'Dracula.txt',
+             'Alices Adventures In Wonderland': 'Alices Adventures In Wonderland.txt',
+             'Adventures Of Sherlock Holmes': 'Adventures Of Sherlock Holmes.txt',
     }
                 
     while Choice != 'Exit':
         
-        print(f'{'Choose a book':^25}')
+        print(f'{'Choose a book':^50}')
         print(Top_Line)
 
         for Name in Books:
-            print(f'{Name:^25}')
+            print(f'{Name:^50}')
             
-        print(f'{'Exit':^25}')
+        print(f'{'Exit':^50}')
         print(Bottom_Line)
         print()
         
         Choice = input('==>>')
-        Choice = Choice.capitalize().strip().replace(' ','')
+        Choice = Choice.title().strip()
 
 
         if Choice in Books:
@@ -33,14 +34,14 @@ def Meny():
             Link = Books[Choice]
             
             while Choice != 'Back':
-                print(f'{'Type what chooise you want':^25}')
+                print(f'{'Type what chooise you want':^50}')
                 print(Top_Line)
                 
-                print(f'{'Basic Statistics':^25}')
-                print(f'{'Word Analysis':^25}')
-                print(f'{'Character nalysis':^25}')
+                print(f'{'Basic Statistics':^50}')
+                print(f'{'Word Analysis':^50}')
+                print(f'{'Character Analysis':^50}')
       
-                print(f'{'Back':^25}')
+                print(f'{'Back':^50}')
                 print(Bottom_Line)
                 print()
                 
@@ -60,6 +61,7 @@ def Meny():
                     Result = Function.Word_Frequency(Link, Word)
 
                     print(f'Word Analysis for {Link}')
+                    print(Top_Line)
 
                     print(f'{Word} appears {Result[2]} in the text')
                     print(f'Words appering only once: {Result[1]}')
@@ -68,7 +70,8 @@ def Meny():
                     print(f'Top 10 most common worlds:')
                     for Word, Count in Result[0]:
                         print(f'{Word: <10} {Count}')
-                    
+                        
+                    print(Bottom_Line)
                     print()
                 elif Choice == 'Characteranalysis':
                     print('Gör en funktion till varje')
