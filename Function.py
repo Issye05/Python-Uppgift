@@ -1,8 +1,14 @@
-def Word_Frequency(Link, Unique_Word):
-    Word_Count = {}
-    Words_Appearing_Only_Once = 0
-    Unique_Word_Count = 0
-    Word_Length = 0
+import matplotlib.pyplot as plt
+
+#--->
+
+def Word_analysis(Link, Unique_word):
+    Word_count = {}
+    Word_length = []
+    Words_appearing_only_once = set()
+    Unique_word_count = 0
+    
+    Unique_word = Unique_word.lower()
     
     with open(Link, "r", encoding="utf-8") as Book:
 
@@ -11,34 +17,55 @@ def Word_Frequency(Link, Unique_Word):
 
             for Word in Words:
                 Word = Word.lower()
-                Unique_Word = Unique_Word.lower()
 
-                if Word == Unique_Word:
-                    Unique_Word_Count += 1
+                Words_appearing_only_once.add(Word)
 
-                if Word in Word_Count:
-                    Word_Count[Word] += 1
+                Word_length.append(len(Word))
+
+                if Word == Unique_word:
+                    Unique_word_count += 1
+
+                if Word in Word_count:
+                    Word_count[Word] += 1
                     
                 else:
-                    Word_Count[Word] = 1
-                    Word_Length += len(Word)
-                    Words_Appearing_Only_Once += 1
+                    Word_count[Word] = 1
 
-    Word_Count = sorted(Word_Count.items(), key=lambda x: x[1], reverse=True) #items gör de till en turple, key - x[1] sorterar det i storleks ordning, rev vänder de baklänges
-    Word_Count = Word_Count[:10]
+    Word_count = sorted(Word_count.items(), key = lambda x: x[1], reverse = True) #items gör de till en turple, key - x[1] sorterar det i storleks ordning, rev vänder de baklänges
+    Word_count = Word_count[:10]
 
-    Word_Length_Distribution = Word_Length / Words_Appearing_Only_Once
-    Word_Length_Distribution = round(Word_Length_Distribution, 2)
+    Words_appearing_only_once = len(Words_appearing_only_once)
 
-    return Word_Count, Words_Appearing_Only_Once, Unique_Word_Count, Word_Length_Distribution
-
-
-def Character_Analysis(Link):
-    Letter_Frequency_Distribution = {}
-    Punctuation_Statistics = {}
-    Small_Letter = 0
-    Big_Letter = 0
+    Word_length.sort()
     
+
+    return Word_count, Word_length, Words_appearing_only_once, Unique_word_count
+
+def Visualisations_word(Link):
+
+    Result = Word_analysis(Link, '')
+        
+    x, y = zip(*Result[0])
+
+    plt.bar(x, y, color='turquoise') #bar: fast data som i en dic
+    plt.title('Top 10 most common worlds')
+    plt.xlabel('Word')
+    plt.ylabel('Count')
+    plt.show()
+
+    
+    plt.hist(Result[1], bins=range(1, max(Result[1]) + 1), color='red') #hist: rådata, bins: delar upp datan i ''fack'' från 1 till max längd
+    plt.title("Word Length Distribution")
+    plt.xlabel("Word Length (characters)")
+    plt.ylabel("Frequency")
+    plt.show()
+
+#--->
+
+def Character_analysis(Link):
+    Letter_count = {}
+    Character_type = {'Lowercase': 0, 'Uppercase': 0, 'Digits': 0, 'Spaces': 0, 'Punctuation': 0, 'Rest': 0,}
+
     with open(Link, "r", encoding="utf-8") as Book:
 
         for Line in Book:
@@ -46,35 +73,94 @@ def Character_Analysis(Link):
             for Letter in Line:
 
                 if 'a' <= Letter <= 'z':
-                    Small_Letter += 1
+                    Character_type['Lowercase'] += 1
                     
                 elif 'A' <= Letter <= 'Z':
-                    Big_Letter += 1
-                    
-                Letter = Letter.lower()
+                    Character_type['Uppercase'] += 1
 
-                if 'a' <= Letter <= 'z':
-                    if Letter in Letter_Frequency_Distribution:
-                        Letter_Frequency_Distribution[Letter] += 1
-                        
-                    else:
-                        Letter_Frequency_Distribution[Letter] = 1
-                        
+                elif '0' <= Letter <= '9':
+                    Character_type['Digits'] += 1
+
+                elif Letter == ' ':
+                    Character_type['Spaces'] += 1
+
+                elif Letter == '.':
+                    Character_type['Punctuation'] += 1
+
                 else:
-                    if Letter in Punctuation_Statistics:
-                        Punctuation_Statistics[Letter] += 1
-                        
+                    Character_type['Rest'] += 1
+
+                Letter = Letter.lower()
+                
+                if Letter.isalpha():
+                    if Letter in Letter_count:
+                        Letter_count[Letter] += 1
+                
                     else:
-                        Punctuation_Statistics[Letter] = 1
+                        Letter_count[Letter] = 1
+
                     
+    Letter_count = sorted(Letter_count.items(), key = lambda x: x[1], reverse = True)
+    Letter_count = Letter_count[:10]
 
-    Letter_Frequency_Distribution = sorted(Letter_Frequency_Distribution.items(), key=lambda x: x[1], reverse=True)
-    Letter_Frequency_Distribution = Letter_Frequency_Distribution[:10]
+    return Letter_count, Character_type
 
-    Punctuation_Statistics = sorted(Punctuation_Statistics.items(), key=lambda x: x[1], reverse=True)
-    Space = Punctuation_Statistics[:1]
-    Punctuation_Statistics = Punctuation_Statistics[2:8]
+def Visualisations_character(Link):
 
-    return(Letter_Frequency_Distribution, Punctuation_Statistics, Small_Letter, Big_Letter, Space)
+    Result = Character_analysis(Link)
+        
+    x, y = zip(*Result[0])
+
+    plt.bar(x, y, color='orange')
+    plt.title('Top 10 most common letters')
+    plt.xlabel('Letter')
+    plt.ylabel('Count')
+    plt.show()
+
+    Pie_colors = ['steelblue', 'darkorange', 'crimson', 'mediumseagreen', 'mediumpurple', 'goldenrod']          
+
+    plt.pie(Result[1].values(), labels = Result[1].keys(), colors = Pie_colors) #Keys blir namnen och values blir hur stor varje del är
+    plt.title('Character type distribution')
+    plt.show()
+
+#--->
+
+def Basic_statistics(Link):
+
+    Link = open(Link, 'r')
+    Counters = {'Words' : 0,
+                'Lines' : 0,
+                'Characters' : 0,
+                'Characters_all' : 0,
+                'Sentences' : 0,
+                'A_w_p_l' : 0,
+                'A_c_p_w' : 0,
+                'A_w_p_s' : 0}
+    
+    for Line in Link:
+        Counters['Characters_all'] += len(Line)
+        for Letter in Line:
+            if Letter != ' ':
+                Counters['Characters'] += 1
+            if Letter in '.!?':
+                Counters['Sentences'] += 1        
+        Line = Line.split()
+        Counters['Lines'] += 1
+        
+        for Word in Line:
+            Counters['Words'] += 1
+
+    
+    Counters['A_w_p_l'] =  round(Counters['Words'] / Counters['Lines'], 2)
+    Counters['A_c_p_w'] = round(Counters['Characters'] / Counters['Words'], 2)
+    Counters['A_w_p_s'] = round(Counters['Words'] / Counters['Sentences'], 2)
+    
+
+    Link.close()
+    
+    return Counters
+
+#--->
+
 
     
