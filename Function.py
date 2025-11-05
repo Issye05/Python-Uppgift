@@ -131,14 +131,14 @@ def Basic_statistics(Link):
     Counters = {'Words' : 0,
                 'Lines' : 0,
                 'Characters' : 0,
-                'Characters_all' : 0,
+                'All characters' : 0,
                 'Sentences' : 0,
                 'Average words per line' : 0,
                 'Average word length' : 0,
                 'Average words per sentence' : 0}
     
     for Line in Link:
-        Counters['Characters_all'] += len(Line)
+        Counters['All characters'] += len(Line)
         for Letter in Line:
             if Letter != ' ':
                 Counters['Characters'] += 1
@@ -152,7 +152,7 @@ def Basic_statistics(Link):
 
     Link.close()
     
-    Counters['Avrage word per line'] =  round(Counters['Words'] / Counters['Lines'], 2)
+    Counters['Average words per line'] =  round(Counters['Words'] / Counters['Lines'], 2)
     Counters['Average word length'] = round(Counters['Characters'] / Counters['Words'], 2)
     Counters['Average words per sentence'] = round(Counters['Words'] / Counters['Sentences'], 2)
 
