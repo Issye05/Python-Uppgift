@@ -1,4 +1,7 @@
+import importlib
 import Function
+
+importlib.reload(Function)
 
 def Meny():
     Top_Line = '\u2554' + '\u2550' * 50 + '\u2557'
@@ -25,7 +28,7 @@ def Meny():
         print()
         
         Choice = input('==>>')
-        Choice = Choice.title().strip()
+        Choice = Choice.strip().title()
 
 
         if Choice in Books:
@@ -42,7 +45,7 @@ def Meny():
                 print(f'{'Word Analysis':^50}')
                 print(f'{'Sentence Analysis':^50}')
                 print(f'{'Character Analysis':^50}')
-                print(f'{'Export results':^50}')
+                print(f'{'Export Result':^50}')
 
       
                 print(f'{'Back':^50}')
@@ -50,68 +53,117 @@ def Meny():
                 print()
                 
                 Choice = input('==>>')
-                Choice = Choice.capitalize().strip().replace(' ','')
+                Choice = Choice.strip().capitalize().replace(' ','')
 
-                if Choice == 'Basicstatistic':
-                    print('Gör en funktion till varje')
+                if Choice == 'Basicstatistics':
+
+                    Result = Function.Basic_statistics(Link)
                     
                     print()
+                    print(f'Basic Statistics for {Link}')
+                    print(Top_Line)
+  
+                    for Word, Count in Result.items():
+                        print(f'{Word: <10} {Count}')
+                    
+                    print(Bottom_Line)
+                    print()
+
+                    Function.Visualisations_statistics(Link)
                     
                 elif Choice == 'Wordanalysis':
+                    
                     print()
                     print(f'Type the word you want to search for in the text:')
                     Word = input('==>>')
                     print()
                     
-                    Word_Analysis_Result = Function.Word_Frequency(Link, Word)
+                    Result = Function.Word_analysis(Link, Word)
+
+                    Avrage = sum(Result[1]) / len(Result[1])
+                    Avrage = round(Avrage, 1)
 
                     print(f'Word Analysis for {Link}')
                     print(Top_Line)
 
-                    print(f'{Word} appears {Word_Analysis_Result[2]} in the text')
-                    print(f'Words appering only once: {Word_Analysis_Result[1]}')
-                    print(f'Average word length: {Word_Analysis_Result[3]} characters')
+                    print(f'Shortest word: {min(Result[1])}')
+                    print(f'Longest word: {max(Result[1])}')
+                    print(f'Avrage lenght: {Avrage}')
+                    print(f'Words appering only once: {Result[2]}')
+                    print(f'Your word: {Word} appered {Result[3]} times in the text')
                     print()
 
                     print(f'Top 10 most common worlds:')
-                    for Word, Count in Word_Analysis_Result[0]:
+                    for Word, Count in Result[0]:
                         print(f'{Word: <10} {Count}')
                         
                     print(Bottom_Line)
                     print()
 
+                    Function.Visualisations_word(Link)
+
                 elif Choice == 'Sentenceanalysis':
-                    print('Sentence Analysis')
+
+                    Result = Function.Sentence_analysis(Link)
+                
+                    print()
+                    print(f'Sentence Analysis for {Link}')
+                    print(Top_Line)
+                    
+                    print(f'Longest sentance is {max(Result[0])} words:')
+                    print('" ', end='')
+                    for Word in Result[1][:30]:
+                        print(Word, end=' ')
+                    print('.."')
+                    print()
+                    
+                    print(f'Shortest sentance is {min(Result[0])} word(s):')
+                    print('" ', end='')
+                    for Word in Result[2]:
+                        print(Word, end=' ')
+                    print('"')
+                    print()
+                    
+                    print(f'Sentence length distribution (top 5):', sep='')
+                    for Word, Count in Result[3]:
+                        print(f'{Word} words: {Count: >10} sentences')
+
+                    print(Bottom_Line)
+                    print()
+
+                    Function.Sentence_visualisation(Link)
                      
                 elif Choice == 'Characteranalysis':
                     print()
 
-                    Character_Analysis_Result = Function.Character_Analysis(Link)
+                    Result = Function.Character_analysis(Link)
 
                     print(f'Character Analysis for {Link}')
                     print(Top_Line)
 
-                    print(f'Punctuation statistics (Top 5):')
-                    for Punctuation, Count in Character_Analysis_Result[1]:
-                        print(f'{Punctuation: <10} {Count}')
-                        
-                    print()
-                    
-                    print(f'Small letters: {Character_Analysis_Result[2]}')
-                    print(f'Big letters: {Character_Analysis_Result[3]}')
-                    print(f'Spaces: {Character_Analysis_Result[4]}')
-                    
+                    print(f'Top 5 most common letters:')
+                    for Letter, Count in Result[0]:
+                        print(f'{Letter: <10} {Count}')
+
                     print()
 
-                    print(f'Top 10 most common letters:')
-                    for Letter, Count in Character_Analysis_Result[0]:
-                        print(f'{Letter: <10} {Count}')
+                    print(Result[1])
+
+                    print(f'Character type:')
+                    for Character, Count in Result[1].items():
+                        print(f'{Character: <10} {Count}')
                         
                     print(Bottom_Line)
                     print()
+
+                    Function.Visualisations_character(Link)
                     
-                elif Choice == 'Exportresults':
+                elif Choice == 'Exportresult':
+                    print()
                     print('Exporting result...')
+
+                    Function.Export(Link)
+                    print()
 
                 elif Choice == 'Back':
                     print()
@@ -128,4 +180,5 @@ def Meny():
         else:
             print('Error, Try again')
             print()
+
 Meny()
